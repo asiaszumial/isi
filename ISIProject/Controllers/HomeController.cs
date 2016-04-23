@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ISIProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +11,15 @@ namespace ISIProject.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            string xmlFile = Server.MapPath("~/Files/kursy.xml");
+            string xsltFile = Server.MapPath("~/Files/kursyXSLT.xslt");
+
+            XsltModel model = new XsltModel();
+            model.xmlFile = xmlFile;
+            model.xsltFile = xsltFile;
+
+            return View(model);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
