@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfOrder>
+  <Order>
+    <Amount>120.40</Amount>
+    <Id>1</Id>
+  </Order>
+  <Order>
+    <Amount>30.00</Amount>
+    <Id>4</Id>
+  </Order>
+  <Order>
+    <Amount>19.99</Amount>
+    <Id>5</Id>
+  </Order>
+  <Order>
+    <Amount>37.35</Amount>
+    <Id>7</Id>
+  </Order>
+</ArrayOfOrder>
