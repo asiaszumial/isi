@@ -179,6 +179,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Files\kursy.xml" />
     <Content Include="Files\kursyXSLT.xslt" />
+    <Content Include="Files\orders.xml" />
+    <Content Include="Files\orders_xslt.xslt" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

@@ -6,6 +6,9 @@
 
   <xsl:template match="/*">
     <html>
+      <head>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css"></link>
+      </head>
       <body>
         <p>Zamówienia zostały opłacone!</p>
         <p>Nie odpowiadaj na te meila! Został on wygenerowany z użyciem najnowszej technologii!</p>
