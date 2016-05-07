@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Xml.Serialization;
 
 namespace ISIProject.Models
 {
     [Serializable()]
+    [XmlRoot("Order")]
     public class Order
     {
-        [System.Xml.Serialization.XmlElement("Id")]
+        [XmlElement("Id")]
         public int orderId { get; set; }
-        [System.Xml.Serialization.XmlElement("Amount")]
+        [XmlElement("Amount")]
         public double amount { get; set; }
-        [System.Xml.Serialization.XmlElement("Currency")]
+        [XmlElement("Currency")]
         public string currency { get; set; }
     }
 }

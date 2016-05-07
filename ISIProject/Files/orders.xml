@@ -1,6 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfOrder>
-  <Orders>
+﻿<ArrayOfOrder>
     <Order>
       <Amount>120.40</Amount>
       <Currency>PLN</Currency>
@@ -21,5 +19,4 @@
       <Currency>GBP</Currency>
       <Id>1</Id>
     </Order>
-  </Orders>
 </ArrayOfOrder>

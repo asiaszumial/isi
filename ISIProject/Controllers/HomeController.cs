@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -15,13 +16,54 @@ namespace ISIProject.Controllers
 {
     public class HomeController : Controller
     {
+
+        String userToken = "45f0f92c2966491f8a3454e84a79d23a";
+
+        public static XmlDocument requestAPI(string requestUrl, string method)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
+                request.Method = method;
+                request.Accept = "application/xml";
+
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                if ((int)response.StatusCode != 200)
+                {
+                    return null;
+                }
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(response.GetResponseStream());
+                return (xmlDoc);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public ActionResult Index()
         {
             OrderCollection orders = null;
+            XmlReader xmlReader;
             XmlSerializer serializer = new XmlSerializer(typeof(OrderCollection));
-            StreamReader reader = new StreamReader(Server.MapPath("~/Files/orders.xml"));
-            orders = (OrderCollection)serializer.Deserialize(reader);
-            reader.Close();
+
+            xmlReader = new XmlTextReader(Server.MapPath("~/Files/orders.xml"));
+
+            String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&unpaid=true";
+
+            if (requestAPI(URLString, "GET") != null)
+            {
+                xmlReader = new XmlNodeReader(requestAPI(URLString, "GET"));
+            }
+            
+            orders = (OrderCollection)serializer.Deserialize(xmlReader);
+            
+            xmlReader.Close();
             return View(orders);
         }
 
@@ -29,11 +71,20 @@ namespace ISIProject.Controllers
         {
             ViewBag.XsltModel = getFiles();
 
-            XmlSerializer serializer = new XmlSerializer(typeof(OrderDetails));
-            StreamReader reader = new StreamReader(Server.MapPath("~/Files/order" + orderId + ".xml"));
             OrderDetails viewModel = null;
-            viewModel = (OrderDetails)serializer.Deserialize(reader);
-            reader.Close();
+            XmlReader xmlReader;
+            XmlSerializer serializer = new XmlSerializer(typeof(OrderDetails));
+            xmlReader = new XmlTextReader(Server.MapPath("~/Files/order" + orderId + ".xml"));
+
+            String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + orderId;
+
+            if (requestAPI(URLString, "GET") != null)
+            {
+                xmlReader = new XmlNodeReader(requestAPI(URLString, "GET"));
+            }
+               
+            viewModel = (OrderDetails)serializer.Deserialize(xmlReader);
+            xmlReader.Close();
 
             return View(viewModel);
         }

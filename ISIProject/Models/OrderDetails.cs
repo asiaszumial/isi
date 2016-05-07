@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Xml.Serialization;
 
 namespace ISIProject.Models
 {
     [Serializable()]
-    [System.Xml.Serialization.XmlRoot("Order")]
+    [XmlRoot("Order")]
     public class OrderDetails
     {
         [Display(Name = "Numer zamówienia")]
-        [System.Xml.Serialization.XmlElement("id")]
+        [XmlElement("Id")]
         public int orderId { get; set; }
         [Display(Name = "Kwota")]
-        [System.Xml.Serialization.XmlElement("amount")]
+        [XmlElement("Amount")]
         public double amount { get; set; }
-        [System.Xml.Serialization.XmlElement("email")]
+        [XmlElement("Email")]
         public string email { get; set; }
         [Display(Name = "Numer faktury")]
-        [System.Xml.Serialization.XmlElement("invoiceNo")]
+        [XmlElement("InvoiceNo")]
         public string invoiceNo { get; set; }
-        [System.Xml.Serialization.XmlElement("storeId")]
+        [XmlElement("StoreId")]
         public string storeId { get; set; }
         [Display(Name = "Waluta")]
-        [System.Xml.Serialization.XmlElement("currency")]
+        [XmlElement("Currency")]
         public string currency { get; set; }
     }
 }
