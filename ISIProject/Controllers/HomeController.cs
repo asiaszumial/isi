@@ -51,11 +51,12 @@ namespace ISIProject.Controllers
         {
             string xmlFile = Server.MapPath("~/Files/kursy.xml");
             string xsltFile = Server.MapPath("~/Files/kursyXSLT.xslt");
-            if (!System.IO.File.Exists(xmlFile)) // || System.IO.File.GetLastWriteTime(xmlFile) != DateTime.Today)
+            if (!System.IO.File.Exists(xmlFile) || System.IO.File.GetLastWriteTime(xmlFile).Date != DateTime.Today)
             {
                 String URLString = "https://www.nbp.pl/kursy/xml/LastA.xml";
                 XmlTextReader xmlReader = new XmlTextReader(URLString);
-                XmlWriter writer = XmlWriter.Create(xmlFile);
+                XmlWriterSettings settings = new XmlWriterSettings { OmitXmlDeclaration = true, ConformanceLevel = ConformanceLevel.Fragment };
+                XmlWriter writer = XmlWriter.Create(xmlFile, settings);
                 writer.WriteNode(xmlReader, true);
                 writer.Close();
                 xmlReader.Close();
