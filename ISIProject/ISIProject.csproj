@@ -166,10 +166,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\XmlRender.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderCollection.cs" />
+    <Compile Include="Models\OrderDetails.cs" />
     <Compile Include="Models\XsltModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -179,6 +183,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Files\kursy.xml" />
     <Content Include="Files\kursyXSLT.xslt" />
+    <Content Include="Files\order1.xml" />
+    <Content Include="Files\order4.xml" />
+    <Content Include="Files\order5.xml" />
+    <Content Include="Files\order7.xml" />
     <Content Include="Files\orders.xml" />
     <Content Include="Files\orders_xslt.xslt" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -210,6 +218,8 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Home\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

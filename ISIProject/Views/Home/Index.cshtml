@@ -1,11 +1,31 @@
-﻿@using ISIProject.Helpers
-
-@model ISIProject.Models.XsltModel
+﻿@model ISIProject.Models.OrderCollection
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Zamówienia";
 }
 
-
-<div data-role="content" class="container">
-    @Html.RenderXml(Model.xmlFile, Model.xsltFile)
+<div class="container">
+    <div class="col-sm-6">
+        <h1>Zamówienia</h1>
+        <div class="table-responsive">
+            <table class="table table-striped ">
+                <tr>
+                    <th>Numer</th>
+                    <th>Kwota</th>
+                    <th>Waluta</th>
+                    <th></th>
+                </tr>
+                @foreach (var order in Model.orders)
+            {
+                    <tr>
+                        <td>@order.orderId</td>
+                        <td>@order.amount</td>
+                        <td>@order.currency</td>
+                        <td class="col-md-1">
+                            <button type="button" onclick="location.href='@Url.Action("Payment", "Home", new {orderId = order.orderId })'" class="btn btn-primary">Zapłać</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 </div>

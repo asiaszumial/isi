@@ -1,0 +1,52 @@
+﻿@using ISIProject.Helpers
+
+@model ISIProject.Models.OrderDetails
+@{
+    ViewBag.Title = "Płatność";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Płatność za zamówienie</h2>
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                @using (Html.BeginForm("Payment", "Home", new { @class="form-horizontal" }))
+                {
+                    @Html.HiddenFor(m => m.storeId)
+                    @Html.HiddenFor(m => m.email)
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.orderId, new { @class = "control-label col-sm-2" })
+                        @Html.TextBoxFor(m => m.orderId, new { @class = "form-control", @readonly= "readonly" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.invoiceNo, new { @class = "control-label col-sm-2" })
+                        @Html.TextBoxFor(m => m.invoiceNo, new { @class = "form-control", @readonly= "readonly" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.amount, new { @class = "control-label col-sm-2" })
+                        @Html.TextBoxFor(m => m.amount, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.currency, new { @class = "control-label col-sm-2" })
+                        @Html.TextBoxFor(m => m.currency, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+
+                    <button type="submit" class="btn btn-primary col-sm-offset-2">Zapłać</button>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Bieżące średnie kursy walut</h2>
+        @if (ViewBag.XsltModel != null)
+        {
+            @Html.RenderXml((string)ViewBag.XsltModel.xmlFile, (string)ViewBag.XsltModel.xsltFile)
+        } else
+        {
+            <p>Tabela średnich kursów jest niedostępna</p>
+        }
+
+    </div>
+</div>
+

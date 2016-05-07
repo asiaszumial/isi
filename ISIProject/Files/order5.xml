@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Order>
+  <amount>120.40</amount>
+  <email>jan.kowalski@gmail.com</email>
+  <id>5</id>
+  <invoiceNo>VAT 5/2016</invoiceNo>
+  <storeId>781343</storeId>
+  <currency>PLN</currency>
+</Order>
