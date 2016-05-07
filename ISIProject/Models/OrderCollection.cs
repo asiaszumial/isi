@@ -10,10 +10,7 @@ namespace ISIProject.Models
     [XmlRoot("ArrayOfOrder")]
     public class OrderCollection
     {
-        //[XmlArray("Orders")]
-        
         [XmlElement("Order")]
-        //[XmlArrayItem("Order", typeof(Order))]
         public Order[] orders { get; set; }
     }
 }

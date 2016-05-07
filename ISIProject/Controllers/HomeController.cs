@@ -19,12 +19,12 @@ namespace ISIProject.Controllers
 
         String userToken = "45f0f92c2966491f8a3454e84a79d23a";
 
-        public static XmlDocument requestAPI(string requestUrl, string method)
+        public static XmlDocument GETRequest(string requestUrl)
         {
             try
             {
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
-                request.Method = method;
+                request.Method = "GET";
                 request.Accept = "application/xml";
 
                 ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
@@ -46,6 +46,31 @@ namespace ISIProject.Controllers
             }
         }
 
+        public static Boolean PUTReqest(string requestUrl)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
+                request.Method = "PUT";
+
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                if ((int)response.StatusCode == 200)
+                {
+                    return true;
+                }
+
+                return false;
+             }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
         public ActionResult Index()
         {
             OrderCollection orders = null;
@@ -56,9 +81,9 @@ namespace ISIProject.Controllers
 
             String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&unpaid=true";
 
-            if (requestAPI(URLString, "GET") != null)
+            if (GETRequest(URLString) != null)
             {
-                xmlReader = new XmlNodeReader(requestAPI(URLString, "GET"));
+                xmlReader = new XmlNodeReader(GETRequest(URLString));
             }
             
             orders = (OrderCollection)serializer.Deserialize(xmlReader);
@@ -78,9 +103,9 @@ namespace ISIProject.Controllers
 
             String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + orderId;
 
-            if (requestAPI(URLString, "GET") != null)
+            if (GETRequest(URLString) != null)
             {
-                xmlReader = new XmlNodeReader(requestAPI(URLString, "GET"));
+                xmlReader = new XmlNodeReader(GETRequest(URLString));
             }
                
             viewModel = (OrderDetails)serializer.Deserialize(xmlReader);
@@ -123,6 +148,5 @@ namespace ISIProject.Controllers
 
             return model;
         }
-
     }
 }
