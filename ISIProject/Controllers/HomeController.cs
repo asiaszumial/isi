@@ -46,31 +46,6 @@ namespace ISIProject.Controllers
             }
         }
 
-        public static Boolean PUTReqest(string requestUrl)
-        {
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestUrl);
-                request.Method = "PUT";
-
-                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => { return true; };
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                if ((int)response.StatusCode == 200)
-                {
-                    return true;
-                }
-
-                return false;
-             }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
-
         public ActionResult Index()
         {
             OrderCollection orders = null;
