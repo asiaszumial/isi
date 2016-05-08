@@ -31,14 +31,14 @@ namespace ISIProject.Controllers
 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                if ((int)response.StatusCode != 200)
+                if ((int)response.StatusCode == 200)
                 {
-                    return null;
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.Load(response.GetResponseStream());
+                    return (xmlDoc);                
                 }
 
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(response.GetResponseStream());
-                return (xmlDoc);
+                return null;
             }
             catch (Exception e)
             {
