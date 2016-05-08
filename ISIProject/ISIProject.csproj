@@ -170,7 +170,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PaymentProcessHelper.cs" />
     <Compile Include="Helpers\XmlRender.cs" />
+    <Compile Include="Models\DotpayUrlcDto.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderCollection.cs" />
     <Compile Include="Models\OrderDetails.cs" />
@@ -220,6 +222,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Home\Payment.cshtml" />
+    <Content Include="Views\Order\Success.cshtml" />
+    <Content Include="Views\Order\Error.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

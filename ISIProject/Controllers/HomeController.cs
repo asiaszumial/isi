@@ -120,7 +120,8 @@ namespace ISIProject.Controllers
             return Redirect("https://ssl.dotpay.pl/test_payment/?id=" + model.storeId
                 + "&kwota=" + model.amount
                 + "&waluta=" + model.currency
-                + "&opis=" + "Zapłata za fakturę " + model.invoiceNo);
+                + "&opis=" + "Zapłata za fakturę " + model.invoiceNo
+                + "&control=" + userToken + model.orderId);
         }
 
         private XsltModel getFiles()

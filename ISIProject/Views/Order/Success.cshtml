@@ -1,0 +1,15 @@
+﻿@model ISIProject.Models.DotpayUrlcDto
+
+@{
+    ViewBag.Title = "Success";
+}
+
+
+<div class="container">
+    <div class="jumbotron">
+        <h2>Dziękujemy za dokonanie płatności za zamówienie @ViewBag.orderId</h2>
+        <p>Potwierdzenie zostanie wysłane na adres email: @Model.email</p>
+        <button type="button" onclick="location.href='@Url.Action("Index", "Home")'" class="btn btn-primary">Powrót do sklepu</button>
+    </div>
+</div>
+
