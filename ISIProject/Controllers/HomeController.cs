@@ -31,14 +31,14 @@ namespace ISIProject.Controllers
 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                if ((int)response.StatusCode != 200)
+                if ((int)response.StatusCode == 200)
                 {
-                    return null;
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.Load(response.GetResponseStream());
+                    return (xmlDoc);                
                 }
 
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(response.GetResponseStream());
-                return (xmlDoc);
+                return null;
             }
             catch (Exception e)
             {
@@ -86,9 +86,9 @@ namespace ISIProject.Controllers
                 xmlReader = new XmlNodeReader(GETRequest(URLString));
             }
             
-            orders = (OrderCollection)serializer.Deserialize(xmlReader);
-            
+            orders = (OrderCollection)serializer.Deserialize(xmlReader);            
             xmlReader.Close();
+
             return View(orders);
         }
 
@@ -99,6 +99,7 @@ namespace ISIProject.Controllers
             OrderDetails viewModel = null;
             XmlReader xmlReader;
             XmlSerializer serializer = new XmlSerializer(typeof(OrderDetails));
+
             xmlReader = new XmlTextReader(Server.MapPath("~/Files/order" + orderId + ".xml"));
 
             String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + orderId;
@@ -120,6 +121,7 @@ namespace ISIProject.Controllers
             return Redirect("https://ssl.dotpay.pl/test_payment/?id=" + model.storeId
                 + "&kwota=" + model.amount
                 + "&waluta=" + model.currency
+                + "&control=" + userToken + ";" + model.orderId 
                 + "&opis=" + "Zapłata za fakturę " + model.invoiceNo);
         }
 
