@@ -98,7 +98,8 @@ namespace ISIProject.Controllers
                 + "&opis=" + "Zapłata za fakturę " + model.invoiceNo
                 + "&control=" + userToken + model.orderId
                 + "&URL=http://isiproject.azurewebsites.net/Order"
-                + "&type=3");
+                + "&type=0"
+                + "&URLC=http://isiproject.azurewebsites.net/Order/urlcDotpay");
         }
 
         private XsltModel getFiles()
