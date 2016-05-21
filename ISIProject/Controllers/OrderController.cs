@@ -47,26 +47,30 @@ namespace ISIProject.Controllers
                 DotpayUrlcDto dotpayResponse = null;
 
                 PaymentProcessHelper.payments.TryGetValue(userToken, out dotpayResponse);
-                if (dotpayResponse != null && dotpayResponse.operation_status == "completed")
+                if (dotpayResponse != null)
                 {
-                    ViewBag.orderId = dotpayResponse.control.Substring(32);
-                    PaymentProcessHelper.payments[userToken] = null;
-
-                    String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + ViewBag.orderId;
-
-                    if (PUTReqest(URLString) == true)
+                    if (dotpayResponse.status == "OK")
                     {
-                        return View("Success", dotpayResponse);
-                    }
+                        ViewBag.orderId = dotpayResponse.control.Substring(32);
+                        PaymentProcessHelper.payments[userToken] = null;
 
-                    return View("Error", dotpayResponse); 
+                        String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + ViewBag.orderId;
+
+                        if (PUTReqest(URLString) == true)
+                        {
+                            return View("Success", dotpayResponse);
+                        }
+
+                        return View("Error", dotpayResponse);
+                    }
+                    else
+                    {
+                        ViewBag.orderId = dotpayResponse.control.Substring(32);
+                        PaymentProcessHelper.payments[userToken] = null;
+                        return View("Error", dotpayResponse);
+                    }
                 }
-                else if (dotpayResponse != null && dotpayResponse.operation_status == "rejected")
-                {
-                    ViewBag.orderId = dotpayResponse.control.Substring(32);
-                    PaymentProcessHelper.payments[userToken] = null;
-                    return View("Error", dotpayResponse);
-                }
+                
             }
             return View();
         }
@@ -74,6 +78,7 @@ namespace ISIProject.Controllers
         [HttpPost]
         public string urlcDotpay(DotpayUrlcDto response)
         {
+            
             DotpayUrlcDto value;
             if (PaymentProcessHelper.payments.TryGetValue(userToken, out value))
             {
