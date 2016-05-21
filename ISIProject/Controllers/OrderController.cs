@@ -40,33 +40,27 @@ namespace ISIProject.Controllers
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Index(DotpayUrlcDto response)
         {
-            if (PaymentProcessHelper.payments.ContainsKey(userToken))
+            if (response != null && response.operation_status == "completed")
             {
-                DotpayUrlcDto dotpayResponse = null;
+                ViewBag.orderId = response.control.Substring(32);
+                PaymentProcessHelper.payments[userToken] = null;
 
-                PaymentProcessHelper.payments.TryGetValue(userToken, out dotpayResponse);
-                if (dotpayResponse != null && dotpayResponse.operation_status == "completed")
+                String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + ViewBag.orderId;
+
+                if (PUTReqest(URLString) == true)
                 {
-                    ViewBag.orderId = dotpayResponse.control.Substring(32);
-                    PaymentProcessHelper.payments[userToken] = null;
-
-                    String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + ViewBag.orderId;
-
-                    if (PUTReqest(URLString) == true)
-                    {
-                        return View("Success", dotpayResponse);
-                    }
-
-                    return View("Error", dotpayResponse); 
+                    return View("Success", response);
                 }
-                else if (dotpayResponse != null && dotpayResponse.operation_status == "rejected")
-                {
-                    ViewBag.orderId = dotpayResponse.control.Substring(32);
-                    PaymentProcessHelper.payments[userToken] = null;
-                    return View("Error", dotpayResponse);
-                }
+
+                return View("Error", response);
+            }
+            else if (response != null && response.operation_status == "rejected")
+            {
+                ViewBag.orderId = response.control.Substring(32);
+                PaymentProcessHelper.payments[userToken] = null;
+                return View("Error", response);
             }
             return View();
         }
