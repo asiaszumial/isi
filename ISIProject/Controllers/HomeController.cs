@@ -97,7 +97,8 @@ namespace ISIProject.Controllers
                 + "&waluta=" + model.currency
                 + "&opis=" + "Zapłata za fakturę " + model.invoiceNo
                 + "&control=" + userToken + model.orderId
-                + "&URL=http://isiproject.azurewebsites.net/Order");
+                + "&URL=http://isiproject.azurewebsites.net/Order"
+                + "&type=0");
         }
 
         private XsltModel getFiles()
