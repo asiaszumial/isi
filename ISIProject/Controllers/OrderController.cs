@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ISIProject.Models;
 using ISIProject.Helpers;
 using System.Net;
+using System.Web.Script.Serialization;
 
 
 namespace ISIProject.Controllers
@@ -98,8 +101,75 @@ namespace ISIProject.Controllers
             {
                 PaymentProcessHelper.payments.Add(userToken, response);
             }
-            
-            return "OK";
+
+            if (sendEmailWithNotification(response))
+                return "OK";
+            else
+            return "FAILED";
+        }
+
+        private bool sendEmailWithNotification(DotpayUrlcDto payments)
+        {
+            OperationResult operationResult = new OperationResult();
+            operationResult = transferData(operationResult, payments);
+            string address = ConfigurationManager.AppSettings["esbAddressToSendEmailNotification"].ToString();
+            try
+            {
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = new JavaScriptSerializer().Serialize(new
+                    {
+                        numer = operationResult.operation_number,
+                        //typ = operationResult.operation_type,
+                        status = operationResult.operation_status,
+                        wartosc = operationResult.operation_amount,
+                        //waluta = operationResult.operation_currency,
+                        data = operationResult.operation_datetime,
+                        opis = operationResult.description,
+                        email = operationResult.email,
+                        kanal = operationResult.channel
+                    });
+
+                    streamWriter.Write(json);
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    if ((int) httpResponse.StatusCode == 200)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+        }
+
+        private OperationResult transferData(OperationResult operationResult, DotpayUrlcDto payments)
+        {
+            operationResult.operation_number = payments.t_id;
+            //operationResult.operation_type = payments.t_status;
+            operationResult.operation_status = payments.t_status;
+            operationResult.operation_amount = payments.amount;
+            //operationResult.operation_currency = payments.operation_currency;
+            operationResult.operation_datetime = payments.t_date;
+            operationResult.description = payments.description;
+            operationResult.email = payments.email;
+            operationResult.channel = payments.channel;
+            return operationResult;
         }
     }
 }

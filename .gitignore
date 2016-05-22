@@ -2,3 +2,5 @@ packages/
 ISIProject/bin/
 ISIProject/obj/
 ISIProject/orders_email.html
+ISIProject/ISIProject.csproj
+*.cs
