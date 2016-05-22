@@ -76,13 +76,20 @@ namespace ISIProject.Controllers
         }
 
         [HttpPost]
-        public string urlcDotpay(string status, string control)
+        public string urlcDotpay(string status, string control, string t_id, string description, string amount, string t_status, string email, string t_date, string channel)
         {
             
             DotpayUrlcDto value;
             DotpayUrlcDto response = new DotpayUrlcDto();
             response.control = control;
             response.status = status;
+            response.t_id = t_id;
+            response.description = description;
+            response.amount = amount;
+            response.t_status = t_status;
+            response.email = email;
+            response.t_date = t_date;
+            response.channel = channel;
             if (PaymentProcessHelper.payments.TryGetValue(userToken, out value))
             {
                 PaymentProcessHelper.payments[userToken] = response;
