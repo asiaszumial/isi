@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="col-sm-6">
+        <h1>Historia</h1>
+        <button type="button" onclick="location.href='@Url.Action("History", "Home", new {days = 7 })'" class="btn btn-primary">7 dni</button>
+        <button type="button" onclick="location.href='@Url.Action("History", "Home", new {days = 30 })'" class="btn btn-primary">30 dni</button>
+        <div class="table-responsive">
+            <table class="table table-striped ">
+                <tr>
+                    <th>Numer</th>
+                    <th>Kwota</th>
+                    <th>Waluta</th>
+                </tr>
+                @foreach (var order in Model.orders)
+                {
+                    <tr>
+                        <td>@order.orderId</td>
+                        <td>@order.amount</td>
+                        <td>@order.currency</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+

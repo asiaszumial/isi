@@ -1,6 +1,7 @@
 ﻿using ISIProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -127,5 +128,30 @@ namespace ISIProject.Controllers
 
             return model;
         }
+
+        public ActionResult History(int days)
+        {
+            string end = String.Format("{0:ddMMyyyy}", DateTime.Today);
+            string start = String.Format("{0:ddMMyyyy}", DateTime.Today.AddDays(-days));
+            
+            OrderCollection orders = null;
+            XmlReader xmlReader;
+            XmlSerializer serializer = new XmlSerializer(typeof(OrderCollection));
+
+            xmlReader = new XmlTextReader(Server.MapPath("~/Files/orders.xml"));
+
+            String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&unpaid=false&startDate=" + start + "&endDate=" + end;
+
+            if (GETRequest(URLString) != null)
+            {
+                //System.Diagnostics.Debug.WriteLine("OK");
+                xmlReader = new XmlNodeReader(GETRequest(URLString));
+            }
+
+            orders = (OrderCollection)serializer.Deserialize(xmlReader);
+
+            xmlReader.Close();
+            return View(orders);
+        }       
     }
 }
