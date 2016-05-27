@@ -59,12 +59,12 @@ namespace ISIProject.Controllers
 
                         String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&order_id=" + ViewBag.orderId;
 
-                        if (PUTReqest(URLString) == true)
+                        if (PUTReqest(URLString) == false)
                         {
-                            return View("Success", dotpayResponse);
+                            return View("ErrorAPI", dotpayResponse);    
                         }
 
-                        return View("Error", dotpayResponse);
+                        return View("Success", dotpayResponse);
                     }
                     else
                     {

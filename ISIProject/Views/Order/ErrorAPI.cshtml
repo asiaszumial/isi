@@ -1,0 +1,16 @@
+﻿@model ISIProject.Models.DotpayUrlcDto
+
+@{
+    ViewBag.Title = "Error";
+}
+
+
+<div class="container">
+    <div class="jumbotron">
+        <h2>Dziękujemy za dokonanie płatności za zamówienie @ViewBag.orderId</h2>
+        <p>Potwierdzenie zostanie wysłane na adres email: @Model.email</p>
+        <br>
+        <h2>Wystąpił błąd podczas zapisu danych w bazie sklepu. Prosimy o kontakt z obsługą.</h2>
+    </div>
+</div>
+
