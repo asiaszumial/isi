@@ -130,21 +130,26 @@ namespace ISIProject.Controllers
         }
 
         public ActionResult History(int days)
-        {
-            string end = String.Format("{0:ddMMyyyy}", DateTime.Today);
-            string start = String.Format("{0:ddMMyyyy}", DateTime.Today.AddDays(-days));
-            
+        {     
             OrderCollection orders = null;
             XmlReader xmlReader;
             XmlSerializer serializer = new XmlSerializer(typeof(OrderCollection));
 
             xmlReader = new XmlTextReader(Server.MapPath("~/Files/orders.xml"));
 
-            String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&unpaid=false&startDate=" + start + "&endDate=" + end;
+            String URLString = "https://jetdevserver2.cloudapp.net/StoreISI/sklepAPI/Orders?token=" + userToken + "&unpaid=false";
+
+            if (days != 0)
+            {
+                string end = String.Format("{0:ddMMyyyy}", DateTime.Today);
+                string start = String.Format("{0:ddMMyyyy}", DateTime.Today.AddDays(-days));
+
+                URLString += "&startDate=" + start + "&endDate=" + end;
+            }
+
 
             if (GETRequest(URLString) != null)
             {
-                //System.Diagnostics.Debug.WriteLine("OK");
                 xmlReader = new XmlNodeReader(GETRequest(URLString));
             }
 
