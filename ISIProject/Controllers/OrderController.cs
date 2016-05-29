@@ -112,10 +112,11 @@ namespace ISIProject.Controllers
         {
             OperationResult operationResult = new OperationResult();
             operationResult = transferData(operationResult, payments);
-            string address = ConfigurationManager.AppSettings["esbAddressToSendEmailNotification"].ToString();
+            //string address = ConfigurationManager.AppSettings["esbAddressToSendEmailNotification"].ToString();
+            string URLString = "http://0fc04ba5.ngrok.io/sendEmail";
             try
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(address);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(URLString);
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
 
